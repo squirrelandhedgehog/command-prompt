@@ -12,7 +12,7 @@
   <Import Project="$(OpenConsoleDir)src\cppwinrt.build.pre.props" />
   <ItemGroup>
     <ClInclude Include="AzureClientID.h" />
-    <ClInclude Include="AzureConnection.h">
+    <ClInclude Include="AzureConnection.h" Condition="'$(SuppressAzureConnection)'!='true'">
       <DependentUpon>AzureConnection.idl</DependentUpon>
     </ClInclude>
     <ClInclude Include="pch.h" />
@@ -25,7 +25,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="init.cpp" />
-    <ClCompile Include="AzureConnection.cpp">
+    <ClCompile Include="NoAzureConnection.cpp" Condition="'$(SuppressAzureConnection)'=='true'">
+      <DependentUpon>AzureConnection.idl</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="AzureConnection.cpp" Condition="'$(SuppressAzureConnection)'!='true'">
       <DependentUpon>AzureConnection.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -69,7 +72,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(OpenConsoleDir)src\cppwinrt.build.post.props" />
-  <Import Project="..\..\..\packages\vcpkg-cpprestsdk.2.10.14\build\native\vcpkg-cpprestsdk.targets" Condition="Exists('..\..\..\packages\vcpkg-cpprestsdk.2.10.14\build\native\vcpkg-cpprestsdk.targets')" />
+  <Import Project="..\..\..\packages\vcpkg-cpprestsdk.2.10.14\build\native\vcpkg-cpprestsdk.targets" Condition="'$(SuppressAzureConnection)'!='true' and Exists('..\..\..\packages\vcpkg-cpprestsdk.2.10.14\build\native\vcpkg-cpprestsdk.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
