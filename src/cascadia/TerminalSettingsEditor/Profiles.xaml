@@ -50,14 +50,27 @@ the MIT License. See LICENSE in the project root for license information. -->
                    Style="{StaticResource DisclaimerStyle}"
                    Visibility="{x:Bind State.Profile.IsBaseLayer}"/>
 
+        <muxc:NavigationView AlwaysShowHeader="False"
+                             PaneDisplayMode="Top"
+                             Grid.Row="1"
+                             SelectionChanged="Nav_SelectionChanged"
+                             Margin="1,0,0,0">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="General" Tag="General"/>
+                <muxc:NavigationViewItem Content="Appearance" Tag="Appearance"/>
+                <muxc:NavigationViewItem Content="Advanced" Tag="Advanced"/>
+            </muxc:NavigationView.MenuItems>
+            <Frame x:Name="contentFrame"/>
+        </muxc:NavigationView>
+
         <Pivot x:Name="ProfilesPivot"
                HorizontalAlignment="Left"
-               Grid.Row="1"
                SelectionChanged="Pivot_SelectionChanged"
-               Margin="1,0,0,0">
+               Margin="1,0,0,0"
+               Visibility="Collapsed">
             <!-- General Tab -->
             <PivotItem x:Uid="Profile_General">
-                <ScrollViewer>
+                <ScrollViewer x:Name="GeneralContent">
                     <StackPanel Style="{StaticResource PivotStackStyle}">
 
                         <!--Name-->
@@ -206,7 +219,7 @@ the MIT License. See LICENSE in the project root for license information. -->
 
             <!-- Appearance Tab -->
             <PivotItem x:Uid="Profile_Appearance">
-                <ScrollViewer>
+                <ScrollViewer x:Name="AppearanceContent">
                     <StackPanel>
                         <StackPanel Style="{StaticResource PivotStackStyle}">
                             <!--Grouping: Text-->
@@ -618,7 +631,7 @@ the MIT License. See LICENSE in the project root for license information. -->
 
             <!-- Advanced Tab -->
             <PivotItem x:Uid="Profile_Advanced">
-                <ScrollViewer>
+                <ScrollViewer x:Name="AdvancedContent">
                     <StackPanel Style="{StaticResource PivotStackStyle}">
                         <!--Suppress Application Title-->
                         <local:SettingContainer x:Uid="Profile_SuppressApplicationTitle"

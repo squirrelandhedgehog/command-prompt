@@ -488,4 +488,27 @@ namespace winrt::Microsoft::Terminal::Settings::Editor::implementation
         _State.LastActivePivot(static_cast<Editor::ProfilesPivots>(ProfilesPivot().SelectedIndex()));
     }
 
+    void Profiles::Nav_SelectionChanged(Windows::Foundation::IInspectable const& /*sender*/, Microsoft::UI::Xaml::Controls::NavigationViewSelectionChangedEventArgs const& e)
+    {
+        if (auto menuItem{ e.SelectedItem().try_as<Microsoft::UI::Xaml::Controls::NavigationViewItem>() })
+        {
+            if (auto tag1{ menuItem.Tag() })
+            {
+                auto tag{ unbox_value<hstring>(tag1) };
+                if (tag == L"General")
+                {
+                    contentFrame().Content(GeneralContent());
+                }
+                else if (tag == L"Appearance")
+                {
+                    contentFrame().Content(AppearanceContent());
+                }
+                else if (tag == L"Advanced")
+                {
+                    contentFrame().Content(AdvancedContent());
+                }
+            }
+        }
+    }
+
 }
